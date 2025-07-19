@@ -1,6 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ClientList from './components/ClientList';
+import ClientForm from './components/ClientForm';
+
+const initialClients = [
+  { id: 1, name: 'John Doe', company: 'Acme Corp', contact: 'john@acme.com' },
+  { id: 2, name: 'Jane Smith', company: 'Beta LLC', contact: 'jane@beta.com' },
+];
 
 function App() {
+  const [clients, setClients] = useState(initialClients);
+  const [showForm, setShowForm] = useState(false);
+  const [editingClient, setEditingClient] = useState(null);
+
+  const handleAdd = () => {
+    setEditingClient(null);
+    setShowForm(true);
+  };
+
+  const handleEdit = (client) => {
+    setEditingClient(client);
+    setShowForm(true);
+  };
+
+  const handleDelete = (client) => {
+    if (window.confirm(`Delete client ${client.name}?`)) {
+      setClients(clients.filter(c => c.id !== client.id));
+    }
+  };
+
+  const handleSave = (form) => {
+    if (editingClient) {
+      setClients(clients.map(c => c.id === editingClient.id ? { ...editingClient, ...form } : c));
+    } else {
+      setClients([
+        ...clients,
+        { ...form, id: Date.now() },
+      ]);
+    }
+    setShowForm(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       {/* Header */}
@@ -14,23 +53,34 @@ function App() {
           <nav>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="block px-2 py-1 rounded hover:bg-blue-100">Clients</a>
+                <a href="#" className="block px-2 py-1 rounded hover:bg-blue-100 font-semibold">Clients</a>
               </li>
               <li>
-                <a href="#" className="block px-2 py-1 rounded hover:bg-blue-100">Projects</a>
+                <span className="block px-2 py-1 rounded text-gray-400 cursor-not-allowed">Projects</span>
               </li>
               <li>
-                <a href="#" className="block px-2 py-1 rounded hover:bg-blue-100">Notes</a>
+                <span className="block px-2 py-1 rounded text-gray-400 cursor-not-allowed">Notes</span>
               </li>
             </ul>
           </nav>
         </aside>
         {/* Main Content */}
         <main className="flex-1 p-6">
-          <h2 className="text-xl font-semibold mb-4">Welcome to the Client Dashboard</h2>
-          <p className="text-gray-600">Select a section from the sidebar to get started.</p>
+          <ClientList
+            clients={clients}
+            onSelect={() => {}}
+            onAdd={handleAdd}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </main>
       </div>
+      <ClientForm
+        open={showForm}
+        onClose={() => setShowForm(false)}
+        onSave={handleSave}
+        initialData={editingClient}
+      />
     </div>
   );
 }
