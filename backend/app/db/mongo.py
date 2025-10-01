@@ -1,0 +1,20 @@
+from typing import Any
+from pymongo import MongoClient
+from pymongo.database import Database
+
+from app.core.config import settings
+
+
+_client: MongoClient | None = None
+
+
+def get_client() -> MongoClient:
+    global _client
+    if _client is None:
+        _client = MongoClient(settings.MONGODB_URI)
+    return _client
+
+
+def get_database() -> Database:
+    return get_client()[settings.MONGODB_DB]
+
