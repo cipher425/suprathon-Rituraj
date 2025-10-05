@@ -1,0 +1,33 @@
+{
+  "name": "suprathon-frontend",
+  "version": "1.0.0",
+  "description": "A modern, responsive frontend application built with React and Vite",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cipher425/suprathon-Rituraj.git"
+  },
+  "keywords": ["react", "vite", "frontend", "modern", "responsive"],
+  "author": "Rituraj Mishra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cipher425/suprathon-Rituraj/issues"
+  },
+  "homepage": "https://github.com/cipher425/suprathon-Rituraj#readme",
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "vite": "^7.1.9"
+  }
+}
